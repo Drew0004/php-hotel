@@ -1,7 +1,7 @@
 <?php
 
     $hotels = [
-
+        
         [
             'name' => 'Hotel Belvedere',
             'description' => 'Hotel Belvedere Descrizione',
@@ -41,6 +41,28 @@
 
     ];
 
+    $result = null;
+
+    if(isset($_GET['parking'])) {
+        $result = $_GET['parking'];
+    }
+    
+    if(isset($result)){
+
+        $filterHotels = [];
+    
+        foreach ($hotels as $singleHotel){
+            if(($result == 'Yes') && ($singleHotel['parking'] == true)){
+                $filterHotels[] = $singleHotel;
+            }else if(($result == 'No') && ($singleHotel['parking'] == false)){
+                $filterHotels[] = $singleHotel;
+            }else if(($result == '0')){
+                $filterHotels[] = $singleHotel;
+            }
+        }
+        $hotels = $filterHotels;
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +79,29 @@
             <h1 class="text-white text-center my-4">
                 Hotels
             </h1>
-    
+
+            <!-- Sezione form -->
+            <form action="./index.php" method="get">
+                <div class="row">
+                    
+                    <div class="col-5">
+                        <select class="form-select" aria-label="Default select example" name="parking">
+                            <option selected value="0">Parcheggio</option>
+                            <option value="Yes">Si</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-1">
+                        <button class="btn btn-primary" type="submit">
+                            Filtra
+                        </button>
+                    </div>
+                
+                </div>
+            </form>
+            
+            <!-- Sezione tabella -->
             <table class="table border mt-4">
                 <thead>
                     <tr>
@@ -75,7 +119,7 @@
                 </thead>
                 <tbody>
                     <?php 
-                        foreach ($hotels as $singleHotel){;
+                        foreach ($hotels as $singleHotel){
                     ?>
                     <tr>
                         <?php 
