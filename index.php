@@ -41,25 +41,27 @@
 
     ];
 
-    $result = null;
+    $resultPark = null;
+    $resultRating = null;
 
     if((isset($_GET['parking']))) {
-        $result = $_GET['parking'];
-    }else if(isset($_GET['rating'])){
-        $result = $_GET['rating'];
-        intval($result);
+        $resultPark = $_GET['parking'];
+    }
+    if(isset($_GET['rating'])){
+        $resultRating = $_GET['rating'];
+        intval($resultRating);
     }
     
-    if(isset($result)){
+    if((isset($resultPark)) && (isset($resultRating))){
 
         $filterHotels = [];
     
         foreach ($hotels as $singleHotel){
-            if(($result == 'Yes') && ($singleHotel['parking'] == true) && ($result >= $singleHotel['vote'] )){
+            if(($resultPark == 'Yes') && ($singleHotel['parking'] == true) && ($resultRating <= $singleHotel['vote'] )){
                 $filterHotels[] = $singleHotel;
-            }else if(($result == 'No') && ($singleHotel['parking'] == false)){
+            }else if(($resultPark == 'No') && ($singleHotel['parking'] == false) && ($resultRating <= $singleHotel['vote'] )){
                 $filterHotels[] = $singleHotel;
-            }else if(($result == '0')){
+            }else if(($resultPark == '0') && ($resultRating == '0' )){
                 $filterHotels[] = $singleHotel;
             }
         }
