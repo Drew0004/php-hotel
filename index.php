@@ -43,8 +43,11 @@
 
     $result = null;
 
-    if(isset($_GET['parking'])) {
+    if((isset($_GET['parking']))) {
         $result = $_GET['parking'];
+    }else if(isset($_GET['rating'])){
+        $result = $_GET['rating'];
+        intval($result);
     }
     
     if(isset($result)){
@@ -52,7 +55,7 @@
         $filterHotels = [];
     
         foreach ($hotels as $singleHotel){
-            if(($result == 'Yes') && ($singleHotel['parking'] == true)){
+            if(($result == 'Yes') && ($singleHotel['parking'] == true) && ($result >= $singleHotel['vote'] )){
                 $filterHotels[] = $singleHotel;
             }else if(($result == 'No') && ($singleHotel['parking'] == false)){
                 $filterHotels[] = $singleHotel;
@@ -82,13 +85,24 @@
 
             <!-- Sezione form -->
             <form action="./index.php" method="get">
-                <div class="row">
+                <div class="row justify-content-center">
                     
                     <div class="col-5">
                         <select class="form-select" aria-label="Default select example" name="parking">
                             <option selected value="0">Parcheggio</option>
                             <option value="Yes">Si</option>
                             <option value="No">No</option>
+                        </select>
+                    </div>
+
+                    <div class="col-5">
+                        <select class="form-select" aria-label="Default select example" name="rating">
+                            <option selected value="0">Voti</option>
+                            <?php 
+                                for($i = 1; $i <= 5; $i++){
+                                    echo '<option value="'.$i.'">'.$i.'</option>';
+                                }
+                            ?>
                         </select>
                     </div>
                     
@@ -125,7 +139,11 @@
                         <?php 
                             echo '<td>'.$singleHotel['name'].'</td>';
                             echo '<td>'.$singleHotel['description'].'</td>';
-                            echo '<td>'.$singleHotel['parking'].'</td>';
+                            if($singleHotel['parking'] == true){
+                                echo '<td>Yes</td>';
+                            }elseif($singleHotel['parking'] == false){
+                                echo '<td>No</td>';
+                            }
                             echo '<td>'.$singleHotel['vote'].'</td>';
                             echo '<td>'.$singleHotel['distance_to_center'].'</td>';
                         ?>
