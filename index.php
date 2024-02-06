@@ -61,7 +61,7 @@
                 $filterHotels[] = $singleHotel;
             }else if(($resultPark == 'No') && ($singleHotel['parking'] == false) && ($resultRating <= $singleHotel['vote'] )){
                 $filterHotels[] = $singleHotel;
-            }else if(($resultPark == '0') && ($resultRating == '0' )){
+            }else if(($resultPark == '0') && ($resultRating <= $singleHotel['vote'] )){
                 $filterHotels[] = $singleHotel;
             }
         }
